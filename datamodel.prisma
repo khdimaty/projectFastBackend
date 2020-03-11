@@ -1,4 +1,35 @@
 type User {
   id: ID! @id
   name: String!
+  phone:String! @unique
+  locations:[Location]!
+    createdAt: DateTime! @createdAt
 }
+type Product {
+  id :ID! @id
+  name:String!
+  description :String!
+  price:Float!
+published: Boolean! @default(value: false)
+  images:[String] @scalarList(strategy: RELATION)
+  createdAt: DateTime! @createdAt
+    
+
+}
+type Location {
+  id:ID! @id
+  name:String!
+   lat:String!
+   long:String!
+     createdAt: DateTime! @createdAt
+
+
+}
+
+type UserProduct {
+  id:ID! @id
+  user:User!
+  product :Product!
+    createdAt: DateTime! @createdAt
+}
+

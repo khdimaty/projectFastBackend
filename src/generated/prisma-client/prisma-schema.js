@@ -3,7 +3,19 @@ module.exports = {
   // Please don't change this file manually but run `prisma generate` to update it.
   // For more information, please read the docs: https://www.prisma.io/docs/prisma-client/
 
-/* GraphQL */ `type AggregateUser {
+/* GraphQL */ `type AggregateLocation {
+  count: Int!
+}
+
+type AggregateProduct {
+  count: Int!
+}
+
+type AggregateUser {
+  count: Int!
+}
+
+type AggregateUserProduct {
   count: Int!
 }
 
@@ -11,15 +23,300 @@ type BatchPayload {
   count: Long!
 }
 
+scalar DateTime
+
+type Location {
+  id: ID!
+  name: String!
+  lat: String!
+  long: String!
+  createdAt: DateTime!
+}
+
+type LocationConnection {
+  pageInfo: PageInfo!
+  edges: [LocationEdge]!
+  aggregate: AggregateLocation!
+}
+
+input LocationCreateInput {
+  id: ID
+  name: String!
+  lat: String!
+  long: String!
+}
+
+input LocationCreateManyInput {
+  create: [LocationCreateInput!]
+  connect: [LocationWhereUniqueInput!]
+}
+
+type LocationEdge {
+  node: Location!
+  cursor: String!
+}
+
+enum LocationOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  lat_ASC
+  lat_DESC
+  long_ASC
+  long_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type LocationPreviousValues {
+  id: ID!
+  name: String!
+  lat: String!
+  long: String!
+  createdAt: DateTime!
+}
+
+input LocationScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  lat: String
+  lat_not: String
+  lat_in: [String!]
+  lat_not_in: [String!]
+  lat_lt: String
+  lat_lte: String
+  lat_gt: String
+  lat_gte: String
+  lat_contains: String
+  lat_not_contains: String
+  lat_starts_with: String
+  lat_not_starts_with: String
+  lat_ends_with: String
+  lat_not_ends_with: String
+  long: String
+  long_not: String
+  long_in: [String!]
+  long_not_in: [String!]
+  long_lt: String
+  long_lte: String
+  long_gt: String
+  long_gte: String
+  long_contains: String
+  long_not_contains: String
+  long_starts_with: String
+  long_not_starts_with: String
+  long_ends_with: String
+  long_not_ends_with: String
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  AND: [LocationScalarWhereInput!]
+  OR: [LocationScalarWhereInput!]
+  NOT: [LocationScalarWhereInput!]
+}
+
+type LocationSubscriptionPayload {
+  mutation: MutationType!
+  node: Location
+  updatedFields: [String!]
+  previousValues: LocationPreviousValues
+}
+
+input LocationSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: LocationWhereInput
+  AND: [LocationSubscriptionWhereInput!]
+  OR: [LocationSubscriptionWhereInput!]
+  NOT: [LocationSubscriptionWhereInput!]
+}
+
+input LocationUpdateDataInput {
+  name: String
+  lat: String
+  long: String
+}
+
+input LocationUpdateInput {
+  name: String
+  lat: String
+  long: String
+}
+
+input LocationUpdateManyDataInput {
+  name: String
+  lat: String
+  long: String
+}
+
+input LocationUpdateManyInput {
+  create: [LocationCreateInput!]
+  update: [LocationUpdateWithWhereUniqueNestedInput!]
+  upsert: [LocationUpsertWithWhereUniqueNestedInput!]
+  delete: [LocationWhereUniqueInput!]
+  connect: [LocationWhereUniqueInput!]
+  set: [LocationWhereUniqueInput!]
+  disconnect: [LocationWhereUniqueInput!]
+  deleteMany: [LocationScalarWhereInput!]
+  updateMany: [LocationUpdateManyWithWhereNestedInput!]
+}
+
+input LocationUpdateManyMutationInput {
+  name: String
+  lat: String
+  long: String
+}
+
+input LocationUpdateManyWithWhereNestedInput {
+  where: LocationScalarWhereInput!
+  data: LocationUpdateManyDataInput!
+}
+
+input LocationUpdateWithWhereUniqueNestedInput {
+  where: LocationWhereUniqueInput!
+  data: LocationUpdateDataInput!
+}
+
+input LocationUpsertWithWhereUniqueNestedInput {
+  where: LocationWhereUniqueInput!
+  update: LocationUpdateDataInput!
+  create: LocationCreateInput!
+}
+
+input LocationWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  lat: String
+  lat_not: String
+  lat_in: [String!]
+  lat_not_in: [String!]
+  lat_lt: String
+  lat_lte: String
+  lat_gt: String
+  lat_gte: String
+  lat_contains: String
+  lat_not_contains: String
+  lat_starts_with: String
+  lat_not_starts_with: String
+  lat_ends_with: String
+  lat_not_ends_with: String
+  long: String
+  long_not: String
+  long_in: [String!]
+  long_not_in: [String!]
+  long_lt: String
+  long_lte: String
+  long_gt: String
+  long_gte: String
+  long_contains: String
+  long_not_contains: String
+  long_starts_with: String
+  long_not_starts_with: String
+  long_ends_with: String
+  long_not_ends_with: String
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  AND: [LocationWhereInput!]
+  OR: [LocationWhereInput!]
+  NOT: [LocationWhereInput!]
+}
+
+input LocationWhereUniqueInput {
+  id: ID
+}
+
 scalar Long
 
 type Mutation {
+  createLocation(data: LocationCreateInput!): Location!
+  updateLocation(data: LocationUpdateInput!, where: LocationWhereUniqueInput!): Location
+  updateManyLocations(data: LocationUpdateManyMutationInput!, where: LocationWhereInput): BatchPayload!
+  upsertLocation(where: LocationWhereUniqueInput!, create: LocationCreateInput!, update: LocationUpdateInput!): Location!
+  deleteLocation(where: LocationWhereUniqueInput!): Location
+  deleteManyLocations(where: LocationWhereInput): BatchPayload!
+  createProduct(data: ProductCreateInput!): Product!
+  updateProduct(data: ProductUpdateInput!, where: ProductWhereUniqueInput!): Product
+  updateManyProducts(data: ProductUpdateManyMutationInput!, where: ProductWhereInput): BatchPayload!
+  upsertProduct(where: ProductWhereUniqueInput!, create: ProductCreateInput!, update: ProductUpdateInput!): Product!
+  deleteProduct(where: ProductWhereUniqueInput!): Product
+  deleteManyProducts(where: ProductWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   deleteUser(where: UserWhereUniqueInput!): User
   deleteManyUsers(where: UserWhereInput): BatchPayload!
+  createUserProduct(data: UserProductCreateInput!): UserProduct!
+  updateUserProduct(data: UserProductUpdateInput!, where: UserProductWhereUniqueInput!): UserProduct
+  upsertUserProduct(where: UserProductWhereUniqueInput!, create: UserProductCreateInput!, update: UserProductUpdateInput!): UserProduct!
+  deleteUserProduct(where: UserProductWhereUniqueInput!): UserProduct
+  deleteManyUserProducts(where: UserProductWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -39,20 +336,227 @@ type PageInfo {
   endCursor: String
 }
 
+type Product {
+  id: ID!
+  name: String!
+  description: String!
+  price: Float!
+  published: Boolean!
+  images: [String!]!
+  createdAt: DateTime!
+}
+
+type ProductConnection {
+  pageInfo: PageInfo!
+  edges: [ProductEdge]!
+  aggregate: AggregateProduct!
+}
+
+input ProductCreateimagesInput {
+  set: [String!]
+}
+
+input ProductCreateInput {
+  id: ID
+  name: String!
+  description: String!
+  price: Float!
+  published: Boolean
+  images: ProductCreateimagesInput
+}
+
+input ProductCreateOneInput {
+  create: ProductCreateInput
+  connect: ProductWhereUniqueInput
+}
+
+type ProductEdge {
+  node: Product!
+  cursor: String!
+}
+
+enum ProductOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  description_ASC
+  description_DESC
+  price_ASC
+  price_DESC
+  published_ASC
+  published_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type ProductPreviousValues {
+  id: ID!
+  name: String!
+  description: String!
+  price: Float!
+  published: Boolean!
+  images: [String!]!
+  createdAt: DateTime!
+}
+
+type ProductSubscriptionPayload {
+  mutation: MutationType!
+  node: Product
+  updatedFields: [String!]
+  previousValues: ProductPreviousValues
+}
+
+input ProductSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: ProductWhereInput
+  AND: [ProductSubscriptionWhereInput!]
+  OR: [ProductSubscriptionWhereInput!]
+  NOT: [ProductSubscriptionWhereInput!]
+}
+
+input ProductUpdateDataInput {
+  name: String
+  description: String
+  price: Float
+  published: Boolean
+  images: ProductUpdateimagesInput
+}
+
+input ProductUpdateimagesInput {
+  set: [String!]
+}
+
+input ProductUpdateInput {
+  name: String
+  description: String
+  price: Float
+  published: Boolean
+  images: ProductUpdateimagesInput
+}
+
+input ProductUpdateManyMutationInput {
+  name: String
+  description: String
+  price: Float
+  published: Boolean
+  images: ProductUpdateimagesInput
+}
+
+input ProductUpdateOneRequiredInput {
+  create: ProductCreateInput
+  update: ProductUpdateDataInput
+  upsert: ProductUpsertNestedInput
+  connect: ProductWhereUniqueInput
+}
+
+input ProductUpsertNestedInput {
+  update: ProductUpdateDataInput!
+  create: ProductCreateInput!
+}
+
+input ProductWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  description: String
+  description_not: String
+  description_in: [String!]
+  description_not_in: [String!]
+  description_lt: String
+  description_lte: String
+  description_gt: String
+  description_gte: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
+  price: Float
+  price_not: Float
+  price_in: [Float!]
+  price_not_in: [Float!]
+  price_lt: Float
+  price_lte: Float
+  price_gt: Float
+  price_gte: Float
+  published: Boolean
+  published_not: Boolean
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  AND: [ProductWhereInput!]
+  OR: [ProductWhereInput!]
+  NOT: [ProductWhereInput!]
+}
+
+input ProductWhereUniqueInput {
+  id: ID
+}
+
 type Query {
+  location(where: LocationWhereUniqueInput!): Location
+  locations(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Location]!
+  locationsConnection(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LocationConnection!
+  product(where: ProductWhereUniqueInput!): Product
+  products(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Product]!
+  productsConnection(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProductConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  userProduct(where: UserProductWhereUniqueInput!): UserProduct
+  userProducts(where: UserProductWhereInput, orderBy: UserProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [UserProduct]!
+  userProductsConnection(where: UserProductWhereInput, orderBy: UserProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserProductConnection!
   node(id: ID!): Node
 }
 
 type Subscription {
+  location(where: LocationSubscriptionWhereInput): LocationSubscriptionPayload
+  product(where: ProductSubscriptionWhereInput): ProductSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+  userProduct(where: UserProductSubscriptionWhereInput): UserProductSubscriptionPayload
 }
 
 type User {
   id: ID!
   name: String!
+  phone: String!
+  locations(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Location!]
+  createdAt: DateTime!
 }
 
 type UserConnection {
@@ -64,6 +568,13 @@ type UserConnection {
 input UserCreateInput {
   id: ID
   name: String!
+  phone: String!
+  locations: LocationCreateManyInput
+}
+
+input UserCreateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
 }
 
 type UserEdge {
@@ -76,11 +587,110 @@ enum UserOrderByInput {
   id_DESC
   name_ASC
   name_DESC
+  phone_ASC
+  phone_DESC
+  createdAt_ASC
+  createdAt_DESC
 }
 
 type UserPreviousValues {
   id: ID!
   name: String!
+  phone: String!
+  createdAt: DateTime!
+}
+
+type UserProduct {
+  id: ID!
+  user: User!
+  product: Product!
+  createdAt: DateTime!
+}
+
+type UserProductConnection {
+  pageInfo: PageInfo!
+  edges: [UserProductEdge]!
+  aggregate: AggregateUserProduct!
+}
+
+input UserProductCreateInput {
+  id: ID
+  user: UserCreateOneInput!
+  product: ProductCreateOneInput!
+}
+
+type UserProductEdge {
+  node: UserProduct!
+  cursor: String!
+}
+
+enum UserProductOrderByInput {
+  id_ASC
+  id_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type UserProductPreviousValues {
+  id: ID!
+  createdAt: DateTime!
+}
+
+type UserProductSubscriptionPayload {
+  mutation: MutationType!
+  node: UserProduct
+  updatedFields: [String!]
+  previousValues: UserProductPreviousValues
+}
+
+input UserProductSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: UserProductWhereInput
+  AND: [UserProductSubscriptionWhereInput!]
+  OR: [UserProductSubscriptionWhereInput!]
+  NOT: [UserProductSubscriptionWhereInput!]
+}
+
+input UserProductUpdateInput {
+  user: UserUpdateOneRequiredInput
+  product: ProductUpdateOneRequiredInput
+}
+
+input UserProductWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  user: UserWhereInput
+  product: ProductWhereInput
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  AND: [UserProductWhereInput!]
+  OR: [UserProductWhereInput!]
+  NOT: [UserProductWhereInput!]
+}
+
+input UserProductWhereUniqueInput {
+  id: ID
 }
 
 type UserSubscriptionPayload {
@@ -101,12 +711,33 @@ input UserSubscriptionWhereInput {
   NOT: [UserSubscriptionWhereInput!]
 }
 
+input UserUpdateDataInput {
+  name: String
+  phone: String
+  locations: LocationUpdateManyInput
+}
+
 input UserUpdateInput {
   name: String
+  phone: String
+  locations: LocationUpdateManyInput
 }
 
 input UserUpdateManyMutationInput {
   name: String
+  phone: String
+}
+
+input UserUpdateOneRequiredInput {
+  create: UserCreateInput
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
+  connect: UserWhereUniqueInput
+}
+
+input UserUpsertNestedInput {
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
 }
 
 input UserWhereInput {
@@ -138,6 +769,31 @@ input UserWhereInput {
   name_not_starts_with: String
   name_ends_with: String
   name_not_ends_with: String
+  phone: String
+  phone_not: String
+  phone_in: [String!]
+  phone_not_in: [String!]
+  phone_lt: String
+  phone_lte: String
+  phone_gt: String
+  phone_gte: String
+  phone_contains: String
+  phone_not_contains: String
+  phone_starts_with: String
+  phone_not_starts_with: String
+  phone_ends_with: String
+  phone_not_ends_with: String
+  locations_every: LocationWhereInput
+  locations_some: LocationWhereInput
+  locations_none: LocationWhereInput
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]
@@ -145,6 +801,7 @@ input UserWhereInput {
 
 input UserWhereUniqueInput {
   id: ID
+  phone: String
 }
 `
       }
