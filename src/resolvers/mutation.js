@@ -12,6 +12,10 @@ function createUserProduct(parent, { data }, context, info) {
 function createLocation(parent, { data }, context, info) {
   return context.prisma.createLocation(data);
 }
+function createUserBag(parent, { data }, context, info) {
+  return context.prisma.createUserBag(data);
+}
+
 // update
 function updateProduct(parent, { data, where }, context, info) {
   return context.prisma.updateProduct({
@@ -37,6 +41,12 @@ function updateLocation(parent, { data, where }, context, info) {
     where
   });
 }
+function updateUserBag(parent, { data, where }, context, info) {
+  return context.prisma.updateUserBag({
+    data,
+    where
+  });
+}
 
 // delete
 function deleteProduct(parent, { where }, context, info) {
@@ -51,7 +61,9 @@ function deleteUserProduct(parent, { where }, context, info) {
 function deleteLocation(parent, { where }, context, info) {
   return context.prisma.deleteLocation(where);
 }
-
+function deleteUserBag(parent, { where }, context, info) {
+  return context.prisma.deleteUserBag(where);
+}
 // add update and delete mutations
 module.exports = {
   createProduct,
@@ -65,5 +77,8 @@ module.exports = {
   updateProduct,
   updateUser,
   updateUserProduct,
-  updateLocation
+  updateLocation,
+  updateUserBag,
+  deleteUserBag,
+  createUserBag
 };

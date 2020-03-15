@@ -26,7 +26,10 @@ function locations(parent, args, context, info) {
   //console.log(manyQuery("users", parent, args, context, info).score);
   return manyQuery("locations", parent, args, context, info);
 }
-
+function userBags(parent, args, context, info) {
+  //console.log(manyQuery("users", parent, args, context, info).score);
+  return manyQuery("userBags", parent, args, context, info);
+}
 function user(parent, { where }, context, info) {
   return context.prisma.user(where);
 }
@@ -39,6 +42,9 @@ function userProduct(parent, { where }, context, info) {
 function location(parent, { where }, context, info) {
   return context.prisma.location(where);
 }
+function userBag(parent, { where }, context, info) {
+  return context.prisma.userBag(where);
+}
 
 module.exports = {
   users,
@@ -48,5 +54,7 @@ module.exports = {
   user,
   userProduct,
   product,
-  location
+  location,
+  userBag,
+  userBags
 };

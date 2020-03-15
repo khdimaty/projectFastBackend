@@ -5,7 +5,9 @@ const { typeDefs } = require("./generated/prisma-client/prisma-schema");
 const Query = require("./resolvers/query");
 const Mutation = require("./resolvers/mutation");
 const UserProduct = require("./resolvers/userProduct");
-const resolvers = { Query, Mutation, UserProduct };
+const UserBag = require("./resolvers/userbag");
+const User = require("./resolvers/user");
+const resolvers = { Query, Mutation, UserProduct, UserBag, User };
 
 // 3
 const server = new GraphQLServer({

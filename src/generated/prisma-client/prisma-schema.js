@@ -15,6 +15,10 @@ type AggregateUser {
   count: Int!
 }
 
+type AggregateUserBag {
+  count: Int!
+}
+
 type AggregateUserProduct {
   count: Int!
 }
@@ -30,6 +34,7 @@ type Location {
   name: String!
   lat: String!
   long: String!
+  user: User!
   createdAt: DateTime!
 }
 
@@ -44,11 +49,24 @@ input LocationCreateInput {
   name: String!
   lat: String!
   long: String!
+  user: UserCreateOneWithoutLocationsInput!
 }
 
-input LocationCreateManyInput {
-  create: [LocationCreateInput!]
+input LocationCreateManyWithoutUserInput {
+  create: [LocationCreateWithoutUserInput!]
   connect: [LocationWhereUniqueInput!]
+}
+
+input LocationCreateOneInput {
+  create: LocationCreateInput
+  connect: LocationWhereUniqueInput
+}
+
+input LocationCreateWithoutUserInput {
+  id: ID
+  name: String!
+  lat: String!
+  long: String!
 }
 
 type LocationEdge {
@@ -169,12 +187,14 @@ input LocationUpdateDataInput {
   name: String
   lat: String
   long: String
+  user: UserUpdateOneRequiredWithoutLocationsInput
 }
 
 input LocationUpdateInput {
   name: String
   lat: String
   long: String
+  user: UserUpdateOneRequiredWithoutLocationsInput
 }
 
 input LocationUpdateManyDataInput {
@@ -183,22 +203,22 @@ input LocationUpdateManyDataInput {
   long: String
 }
 
-input LocationUpdateManyInput {
-  create: [LocationCreateInput!]
-  update: [LocationUpdateWithWhereUniqueNestedInput!]
-  upsert: [LocationUpsertWithWhereUniqueNestedInput!]
-  delete: [LocationWhereUniqueInput!]
-  connect: [LocationWhereUniqueInput!]
-  set: [LocationWhereUniqueInput!]
-  disconnect: [LocationWhereUniqueInput!]
-  deleteMany: [LocationScalarWhereInput!]
-  updateMany: [LocationUpdateManyWithWhereNestedInput!]
-}
-
 input LocationUpdateManyMutationInput {
   name: String
   lat: String
   long: String
+}
+
+input LocationUpdateManyWithoutUserInput {
+  create: [LocationCreateWithoutUserInput!]
+  delete: [LocationWhereUniqueInput!]
+  connect: [LocationWhereUniqueInput!]
+  set: [LocationWhereUniqueInput!]
+  disconnect: [LocationWhereUniqueInput!]
+  update: [LocationUpdateWithWhereUniqueWithoutUserInput!]
+  upsert: [LocationUpsertWithWhereUniqueWithoutUserInput!]
+  deleteMany: [LocationScalarWhereInput!]
+  updateMany: [LocationUpdateManyWithWhereNestedInput!]
 }
 
 input LocationUpdateManyWithWhereNestedInput {
@@ -206,15 +226,35 @@ input LocationUpdateManyWithWhereNestedInput {
   data: LocationUpdateManyDataInput!
 }
 
-input LocationUpdateWithWhereUniqueNestedInput {
-  where: LocationWhereUniqueInput!
-  data: LocationUpdateDataInput!
+input LocationUpdateOneInput {
+  create: LocationCreateInput
+  update: LocationUpdateDataInput
+  upsert: LocationUpsertNestedInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: LocationWhereUniqueInput
 }
 
-input LocationUpsertWithWhereUniqueNestedInput {
+input LocationUpdateWithoutUserDataInput {
+  name: String
+  lat: String
+  long: String
+}
+
+input LocationUpdateWithWhereUniqueWithoutUserInput {
   where: LocationWhereUniqueInput!
+  data: LocationUpdateWithoutUserDataInput!
+}
+
+input LocationUpsertNestedInput {
   update: LocationUpdateDataInput!
   create: LocationCreateInput!
+}
+
+input LocationUpsertWithWhereUniqueWithoutUserInput {
+  where: LocationWhereUniqueInput!
+  update: LocationUpdateWithoutUserDataInput!
+  create: LocationCreateWithoutUserInput!
 }
 
 input LocationWhereInput {
@@ -274,6 +314,7 @@ input LocationWhereInput {
   long_not_starts_with: String
   long_ends_with: String
   long_not_ends_with: String
+  user: UserWhereInput
   createdAt: DateTime
   createdAt_not: DateTime
   createdAt_in: [DateTime!]
@@ -312,8 +353,15 @@ type Mutation {
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   deleteUser(where: UserWhereUniqueInput!): User
   deleteManyUsers(where: UserWhereInput): BatchPayload!
+  createUserBag(data: UserBagCreateInput!): UserBag!
+  updateUserBag(data: UserBagUpdateInput!, where: UserBagWhereUniqueInput!): UserBag
+  updateManyUserBags(data: UserBagUpdateManyMutationInput!, where: UserBagWhereInput): BatchPayload!
+  upsertUserBag(where: UserBagWhereUniqueInput!, create: UserBagCreateInput!, update: UserBagUpdateInput!): UserBag!
+  deleteUserBag(where: UserBagWhereUniqueInput!): UserBag
+  deleteManyUserBags(where: UserBagWhereInput): BatchPayload!
   createUserProduct(data: UserProductCreateInput!): UserProduct!
   updateUserProduct(data: UserProductUpdateInput!, where: UserProductWhereUniqueInput!): UserProduct
+  updateManyUserProducts(data: UserProductUpdateManyMutationInput!, where: UserProductWhereInput): BatchPayload!
   upsertUserProduct(where: UserProductWhereUniqueInput!, create: UserProductCreateInput!, update: UserProductUpdateInput!): UserProduct!
   deleteUserProduct(where: UserProductWhereUniqueInput!): UserProduct
   deleteManyUserProducts(where: UserProductWhereInput): BatchPayload!
@@ -538,6 +586,9 @@ type Query {
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  userBag(where: UserBagWhereUniqueInput!): UserBag
+  userBags(where: UserBagWhereInput, orderBy: UserBagOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [UserBag]!
+  userBagsConnection(where: UserBagWhereInput, orderBy: UserBagOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserBagConnection!
   userProduct(where: UserProductWhereUniqueInput!): UserProduct
   userProducts(where: UserProductWhereInput, orderBy: UserProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [UserProduct]!
   userProductsConnection(where: UserProductWhereInput, orderBy: UserProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserProductConnection!
@@ -548,6 +599,7 @@ type Subscription {
   location(where: LocationSubscriptionWhereInput): LocationSubscriptionPayload
   product(where: ProductSubscriptionWhereInput): ProductSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+  userBag(where: UserBagSubscriptionWhereInput): UserBagSubscriptionPayload
   userProduct(where: UserProductSubscriptionWhereInput): UserProductSubscriptionPayload
 }
 
@@ -557,6 +609,135 @@ type User {
   phone: String!
   locations(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Location!]
   createdAt: DateTime!
+}
+
+type UserBag {
+  id: ID!
+  user: User!
+  userProducts(where: UserProductWhereInput, orderBy: UserProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [UserProduct!]
+  location: Location
+  published: Boolean!
+}
+
+type UserBagConnection {
+  pageInfo: PageInfo!
+  edges: [UserBagEdge]!
+  aggregate: AggregateUserBag!
+}
+
+input UserBagCreateInput {
+  id: ID
+  user: UserCreateOneInput!
+  userProducts: UserProductCreateManyWithoutUserBagInput
+  location: LocationCreateOneInput
+  published: Boolean
+}
+
+input UserBagCreateOneWithoutUserProductsInput {
+  create: UserBagCreateWithoutUserProductsInput
+  connect: UserBagWhereUniqueInput
+}
+
+input UserBagCreateWithoutUserProductsInput {
+  id: ID
+  user: UserCreateOneInput!
+  location: LocationCreateOneInput
+  published: Boolean
+}
+
+type UserBagEdge {
+  node: UserBag!
+  cursor: String!
+}
+
+enum UserBagOrderByInput {
+  id_ASC
+  id_DESC
+  published_ASC
+  published_DESC
+}
+
+type UserBagPreviousValues {
+  id: ID!
+  published: Boolean!
+}
+
+type UserBagSubscriptionPayload {
+  mutation: MutationType!
+  node: UserBag
+  updatedFields: [String!]
+  previousValues: UserBagPreviousValues
+}
+
+input UserBagSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: UserBagWhereInput
+  AND: [UserBagSubscriptionWhereInput!]
+  OR: [UserBagSubscriptionWhereInput!]
+  NOT: [UserBagSubscriptionWhereInput!]
+}
+
+input UserBagUpdateInput {
+  user: UserUpdateOneRequiredInput
+  userProducts: UserProductUpdateManyWithoutUserBagInput
+  location: LocationUpdateOneInput
+  published: Boolean
+}
+
+input UserBagUpdateManyMutationInput {
+  published: Boolean
+}
+
+input UserBagUpdateOneRequiredWithoutUserProductsInput {
+  create: UserBagCreateWithoutUserProductsInput
+  update: UserBagUpdateWithoutUserProductsDataInput
+  upsert: UserBagUpsertWithoutUserProductsInput
+  connect: UserBagWhereUniqueInput
+}
+
+input UserBagUpdateWithoutUserProductsDataInput {
+  user: UserUpdateOneRequiredInput
+  location: LocationUpdateOneInput
+  published: Boolean
+}
+
+input UserBagUpsertWithoutUserProductsInput {
+  update: UserBagUpdateWithoutUserProductsDataInput!
+  create: UserBagCreateWithoutUserProductsInput!
+}
+
+input UserBagWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  user: UserWhereInput
+  userProducts_every: UserProductWhereInput
+  userProducts_some: UserProductWhereInput
+  userProducts_none: UserProductWhereInput
+  location: LocationWhereInput
+  published: Boolean
+  published_not: Boolean
+  AND: [UserBagWhereInput!]
+  OR: [UserBagWhereInput!]
+  NOT: [UserBagWhereInput!]
+}
+
+input UserBagWhereUniqueInput {
+  id: ID
 }
 
 type UserConnection {
@@ -569,12 +750,23 @@ input UserCreateInput {
   id: ID
   name: String!
   phone: String!
-  locations: LocationCreateManyInput
+  locations: LocationCreateManyWithoutUserInput
 }
 
 input UserCreateOneInput {
   create: UserCreateInput
   connect: UserWhereUniqueInput
+}
+
+input UserCreateOneWithoutLocationsInput {
+  create: UserCreateWithoutLocationsInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutLocationsInput {
+  id: ID
+  name: String!
+  phone: String!
 }
 
 type UserEdge {
@@ -604,6 +796,8 @@ type UserProduct {
   id: ID!
   user: User!
   product: Product!
+  qt: Int!
+  UserBag: UserBag!
   createdAt: DateTime!
 }
 
@@ -617,6 +811,20 @@ input UserProductCreateInput {
   id: ID
   user: UserCreateOneInput!
   product: ProductCreateOneInput!
+  qt: Int
+  UserBag: UserBagCreateOneWithoutUserProductsInput!
+}
+
+input UserProductCreateManyWithoutUserBagInput {
+  create: [UserProductCreateWithoutUserBagInput!]
+  connect: [UserProductWhereUniqueInput!]
+}
+
+input UserProductCreateWithoutUserBagInput {
+  id: ID
+  user: UserCreateOneInput!
+  product: ProductCreateOneInput!
+  qt: Int
 }
 
 type UserProductEdge {
@@ -627,13 +835,52 @@ type UserProductEdge {
 enum UserProductOrderByInput {
   id_ASC
   id_DESC
+  qt_ASC
+  qt_DESC
   createdAt_ASC
   createdAt_DESC
 }
 
 type UserProductPreviousValues {
   id: ID!
+  qt: Int!
   createdAt: DateTime!
+}
+
+input UserProductScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  qt: Int
+  qt_not: Int
+  qt_in: [Int!]
+  qt_not_in: [Int!]
+  qt_lt: Int
+  qt_lte: Int
+  qt_gt: Int
+  qt_gte: Int
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  AND: [UserProductScalarWhereInput!]
+  OR: [UserProductScalarWhereInput!]
+  NOT: [UserProductScalarWhereInput!]
 }
 
 type UserProductSubscriptionPayload {
@@ -657,6 +904,50 @@ input UserProductSubscriptionWhereInput {
 input UserProductUpdateInput {
   user: UserUpdateOneRequiredInput
   product: ProductUpdateOneRequiredInput
+  qt: Int
+  UserBag: UserBagUpdateOneRequiredWithoutUserProductsInput
+}
+
+input UserProductUpdateManyDataInput {
+  qt: Int
+}
+
+input UserProductUpdateManyMutationInput {
+  qt: Int
+}
+
+input UserProductUpdateManyWithoutUserBagInput {
+  create: [UserProductCreateWithoutUserBagInput!]
+  delete: [UserProductWhereUniqueInput!]
+  connect: [UserProductWhereUniqueInput!]
+  set: [UserProductWhereUniqueInput!]
+  disconnect: [UserProductWhereUniqueInput!]
+  update: [UserProductUpdateWithWhereUniqueWithoutUserBagInput!]
+  upsert: [UserProductUpsertWithWhereUniqueWithoutUserBagInput!]
+  deleteMany: [UserProductScalarWhereInput!]
+  updateMany: [UserProductUpdateManyWithWhereNestedInput!]
+}
+
+input UserProductUpdateManyWithWhereNestedInput {
+  where: UserProductScalarWhereInput!
+  data: UserProductUpdateManyDataInput!
+}
+
+input UserProductUpdateWithoutUserBagDataInput {
+  user: UserUpdateOneRequiredInput
+  product: ProductUpdateOneRequiredInput
+  qt: Int
+}
+
+input UserProductUpdateWithWhereUniqueWithoutUserBagInput {
+  where: UserProductWhereUniqueInput!
+  data: UserProductUpdateWithoutUserBagDataInput!
+}
+
+input UserProductUpsertWithWhereUniqueWithoutUserBagInput {
+  where: UserProductWhereUniqueInput!
+  update: UserProductUpdateWithoutUserBagDataInput!
+  create: UserProductCreateWithoutUserBagInput!
 }
 
 input UserProductWhereInput {
@@ -676,6 +967,15 @@ input UserProductWhereInput {
   id_not_ends_with: ID
   user: UserWhereInput
   product: ProductWhereInput
+  qt: Int
+  qt_not: Int
+  qt_in: [Int!]
+  qt_not_in: [Int!]
+  qt_lt: Int
+  qt_lte: Int
+  qt_gt: Int
+  qt_gte: Int
+  UserBag: UserBagWhereInput
   createdAt: DateTime
   createdAt_not: DateTime
   createdAt_in: [DateTime!]
@@ -714,13 +1014,13 @@ input UserSubscriptionWhereInput {
 input UserUpdateDataInput {
   name: String
   phone: String
-  locations: LocationUpdateManyInput
+  locations: LocationUpdateManyWithoutUserInput
 }
 
 input UserUpdateInput {
   name: String
   phone: String
-  locations: LocationUpdateManyInput
+  locations: LocationUpdateManyWithoutUserInput
 }
 
 input UserUpdateManyMutationInput {
@@ -735,9 +1035,26 @@ input UserUpdateOneRequiredInput {
   connect: UserWhereUniqueInput
 }
 
+input UserUpdateOneRequiredWithoutLocationsInput {
+  create: UserCreateWithoutLocationsInput
+  update: UserUpdateWithoutLocationsDataInput
+  upsert: UserUpsertWithoutLocationsInput
+  connect: UserWhereUniqueInput
+}
+
+input UserUpdateWithoutLocationsDataInput {
+  name: String
+  phone: String
+}
+
 input UserUpsertNestedInput {
   update: UserUpdateDataInput!
   create: UserCreateInput!
+}
+
+input UserUpsertWithoutLocationsInput {
+  update: UserUpdateWithoutLocationsDataInput!
+  create: UserCreateWithoutLocationsInput!
 }
 
 input UserWhereInput {

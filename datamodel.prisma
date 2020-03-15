@@ -13,6 +13,7 @@ type Product {
 published: Boolean! @default(value: false)
   images:[String] @scalarList(strategy: RELATION)
   createdAt: DateTime! @createdAt
+  
     
 
 }
@@ -21,6 +22,7 @@ type Location {
   name:String!
    lat:String!
    long:String!
+   user :User!
      createdAt: DateTime! @createdAt
 
 
@@ -30,6 +32,15 @@ type UserProduct {
   id:ID! @id
   user:User!
   product :Product!
-    createdAt: DateTime! @createdAt
+  qt:Int! @default(value: 1)
+  UserBag:UserBag!
+    createdAt: DateTime! @createdAt 
 }
-
+type UserBag{
+  id :ID! @id
+  user:User!
+  userProducts:[UserProduct]@relation(link: TABLE)
+  location:Location
+published: Boolean! @default(value: false)
+  
+}
